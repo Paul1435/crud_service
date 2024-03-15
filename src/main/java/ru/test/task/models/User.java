@@ -50,11 +50,16 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "interest_id")
     )
     private List<Interest> interests;
+    
     @NotEmpty(message = "password can't be empty")
     @Column(name = "password")
     private String password;
 
     @ManyToOne
-    @JoinColumn
+    @JoinTable(
+            name = "users_roles_mapping",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Role role;
 }

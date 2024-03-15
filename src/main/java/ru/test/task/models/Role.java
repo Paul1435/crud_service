@@ -3,13 +3,14 @@ package ru.test.task.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "role")
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,4 +25,9 @@ public class Role {
             cascade = CascadeType.PERSIST,
             mappedBy = "role")
     private List<User> users;
+
+    @Override
+    public String getAuthority() {
+        return label;
+    }
 }

@@ -21,7 +21,7 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String SECRET_KEY;
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token)  {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -29,6 +29,7 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -42,6 +43,7 @@ public class JwtService {
         if (userDetails instanceof ImpUserDetails customUserDetails) {
             claims.put("id", customUserDetails.getUser().getId());
             claims.put("email", customUserDetails.getUser().getEmail());
+            claims.put("role", customUserDetails.getUser().getRole().getLabel());
         }
         return generateToken(claims, userDetails);
     }

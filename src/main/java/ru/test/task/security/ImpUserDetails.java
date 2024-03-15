@@ -1,10 +1,14 @@
 package ru.test.task.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.test.task.models.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class ImpUserDetails implements UserDetails {
     private final User user;
@@ -15,7 +19,9 @@ public class ImpUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        System.out.println(user.getRole().getLabel());
+
+        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getLabel()));
     }
 
     @Override
